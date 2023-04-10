@@ -57,7 +57,13 @@
         }
 </style>
 <audio id="notifikasi_in">
-    <source src="{{asset('assets/sound/in.mp3')}}"  type="audio/mpeg/>
+    <source src="{{asset('assets/sound/notifikasi_in.mp3')}}" type="audio/mpeg">
+</audio>
+<audio id="notifikasi_out">
+    <source src="{{asset('assets/sound/notifikasi_out.mp3')}}" type="audio/mpeg">
+</audio>
+<audio id="radius">
+    <source src="{{asset('assets/sound/radius.mp3')}}" type="audio/mpeg">
 </audio>
 @endsection
 
@@ -65,6 +71,9 @@
 @push('myscript')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
 <script>
+    var notifikasi_in = document.getElementById('notifikasi_in')
+    var notifikasi_out = document.getElementById('notifikasi_out')
+    var radius = document.getElementById('radius')
     Webcam.set({
         height:480,
         widht:640,
@@ -85,7 +94,7 @@ function successCallback(position){
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
 
     var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-    var circle = L.circle([position.coords.latitude, position.coords.longitude], {
+    var circle = L.circle([-1.4510862330048337, 122.37980866211892], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
@@ -117,6 +126,11 @@ $("#takeabsen").click(function(e){
         success:function(respond){
             var status = respond.split("|");
             if(status[0] == "success"){
+                if(status[2] == 'in'){
+                    notifikasi_in.play();
+                }else{
+                    notifikasi_out.play();
+                }
                 Swal.fire({
                     title: 'Success',
                     text: status[1],
@@ -124,6 +138,9 @@ $("#takeabsen").click(function(e){
                     })
                     setTimeout("location.href='/home'", 2000)
             }else{
+                if(status[2] == 'radius'){
+                    radius.play();
+                }
                 Swal.fire({
                     title: 'Error !',
                     text: status[1],
