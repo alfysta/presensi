@@ -98,7 +98,7 @@ function successCallback(position){
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 20
+        radius: 200000000000
     }).addTo(map);
 
 }

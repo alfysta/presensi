@@ -66,33 +66,73 @@
         <div class="todaypresence">
             <div class="row">
                 <div class="col-6">
-                    <div class="card gradasigreen">
+                    <div class="card bg-success">
                         <div class="card-body">
                             <div class="presencecontent">
                                 <div class="iconpresence">
-                                    <ion-icon name="camera"></ion-icon>
+                                    @if ($presensi != NULL)
+                                        <img src="{{Storage::url('uploads/absensi/' . $presensi->photo_in)}}" class="imaged" width = "40" height = "60" alt="{{Auth::user()->name}}">
+                                        @else
+                                        <ion-icon name="camera"></ion-icon>
+                                        @endif
+
                                 </div>
                                 <div class="presencedetail">
                                     <h4 class="presencetitle">Masuk</h4>
-                                    <span>07:00</span>
+                                    <span>{{$presensi != NULL ? $presensi->time_in : 'Belum Absen'}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="card gradasired">
+                    <div class="card bg-danger">
                         <div class="card-body">
                             <div class="presencecontent">
                                 <div class="iconpresence">
-                                    <ion-icon name="camera"></ion-icon>
+                                    @if ($presensi != NULL && $presensi->time_out != NULL)
+                                        <img src="{{Storage::url('uploads/absensi/' . $presensi->photo_out)}}" class="imaged" width = "40" height = "40" alt="{{Auth::user()->name}}">
+                                        @else
+                                        <ion-icon name="camera"></ion-icon>
+                                        @endif
                                 </div>
                                 <div class="presencedetail">
                                     <h4 class="presencetitle">Pulang</h4>
-                                    <span>12:00</span>
+                                    <span>{{$presensi != NULL && $presensi->time_out != NULL ? $presensi->time_out : 'Belum Absen'}}</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        Lorem ipsum dolor
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        Lorem ipsum dolor
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        Lorem ipsum dolor
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        Lorem ipsum dolor
                     </div>
                 </div>
             </div>

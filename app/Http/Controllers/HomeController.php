@@ -17,8 +17,10 @@ class HomeController extends Controller
 
     public function index()
     {
-
-        return view('home.index');
+        $date_absensi = date("Y-m-d");
+        $user_id = Auth::user()->id;
+        $presensi = Absen::where(['date_absensi' => $date_absensi, 'user_id' => $user_id])->latest()->first();
+        return view('home.index', compact('presensi'));
     }
 
     public function create(Absen $absen)
@@ -46,16 +48,22 @@ class HomeController extends Controller
         $jarak = $this->distance($latitudeKantor, $longitudeKantor, $latitudeUser, $longitudeUser);
         $radius = round($jarak["meters"]);
 
+        $check = Absen::where(['date_absensi'=> $date_absensi, 'user_id' => $user_id])->count();
+        if($check > 0){
+            $ket = "out";
+        }else{
+            $ket = 'in';
+        }
 
         $image = $request->image;
         $folderPath = "public/uploads/absensi/";
-        $formatName = $user_id . "-" . $date_absensi;
+        $formatName = $user_id . "-" . $date_absensi . "-" . $ket;
         $image_parts = explode(";base64", $image);
         $image_base64 = base64_decode($image_parts[1]);
         $fileName = $formatName . ".png";
         $file = $folderPath . $fileName;
         $absens = Absen::where(['date_absensi'=> $date_absensi, 'user_id' => $user_id])->count();
-        if($radius > 20){
+        if($radius > 200000000000){
             echo "error|Maaf Anda Berada di luar Radius, Jarak Anda ".$radius." meter dari Kantor|radius";
         }else{
             if($absens > 0){
